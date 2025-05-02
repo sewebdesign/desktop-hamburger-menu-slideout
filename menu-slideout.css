@@ -82,7 +82,7 @@ html.cse-menu-enabled:not(.mob-men-dis) .cse-menu-overlay {
 
 /* Menu Open Animations */
 html.cse-menu-enabled:not(.mob-men-dis) .cse--menu-open {
-  overflow: hidden;
+  overflow: hidden!important;
 }
 html.cse-menu-enabled:not(.mob-men-dis) .cse--menu-open #header .header-menu {
   box-shadow: 0 0 var(--menushadow);
