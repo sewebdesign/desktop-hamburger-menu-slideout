@@ -1,3 +1,4 @@
+<!-- This Code is Licensed by schwartz-edmisten.com --> 
 function desktopMobileMenu(options = {}) {
   // Check if already initialized and skip if true
   if (window.desktopMobileMenuInitialized) {
