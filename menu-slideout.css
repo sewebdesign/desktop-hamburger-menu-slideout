@@ -296,6 +296,7 @@ html.cse-menu-enabled:not(.mob-men-dis) #header .header-layout-branding-center-n
 #header .header-burger-btn:before {
   content: var(--menutext);
   font-size: var(--menutextsize);
+  line-height: 1;
 }
 #header .burger--active:before {
   content: var(--menutextclose);
