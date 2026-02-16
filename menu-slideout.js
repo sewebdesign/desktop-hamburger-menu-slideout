@@ -1,4 +1,4 @@
-<!-- This Code is Licensed by schwartz-edmisten.com --> 
+/* This Code is Licensed by schwartz-edmisten.com */
 function desktopMobileMenu(options = {}) {
   if (window.desktopMobileMenuInitialized) return;
   window.desktopMobileMenuInitialized = true;
