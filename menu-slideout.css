@@ -37,6 +37,7 @@
 html.cse-menu-enabled:not(.mob-men-dis) #header .cse-burger {
   display: flex;
   z-index: 3;
+  opacity: 1 !important;
 }
 
 html.cse-menu-enabled:not(.mob-men-dis) #header .cse-burger .header-burger-btn {
@@ -205,7 +206,7 @@ html.cse-menu-enabled:not(.mob-men-dis) #header .header-layout-branding-center .
   position: absolute;
   left: 0;
   top: 50%;
-  transform: translateY(-50%)!important;
+  transform: scale(1) translateY(-50%) !important;
 }
 
 html.cse-menu-enabled:not(.mob-men-dis) #header .header-layout-branding-center .header-display-desktop .header-burger-btn {
