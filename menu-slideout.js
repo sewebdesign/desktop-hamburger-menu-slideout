@@ -1,32 +1,20 @@
 <!-- This Code is Licensed by schwartz-edmisten.com --> 
 function desktopMobileMenu(options = {}) {
-  // Check if already initialized and skip if true
-  if (window.desktopMobileMenuInitialized) {
-    return;
-  }
-  
-  // Mark as initialized
+  if (window.desktopMobileMenuInitialized) return;
   window.desktopMobileMenuInitialized = true;
-  
-  // Default configuration
+
   const config = {
     menuClass: 'cse-menu-enabled',
-    lowerBreakpoint: '800px',
   };
-  
-  // Check if breakpoint was explicitly provided
+
   const hasCustomBreakpoint = options.hasOwnProperty('breakpoint');
-  
-  // Set breakpoint (either custom or a very large value)
   config.breakpoint = hasCustomBreakpoint ? options.breakpoint : '1000000px';
-  
-  // Function to initialize the burger menu
+
   function initBurgerMenu() {
-     document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
       const header = document.getElementById('header');
       if (!header) return;
-      
-      // Original burger code
+
       const original = header.querySelector('.header-display-desktop .header-burger');
       if (original) {
         const container = original.parentNode;
@@ -39,73 +27,45 @@ function desktopMobileMenu(options = {}) {
           document.body.focus();
         });
       }
-      
-      // Add overlay
+
       const overlay = document.createElement('div');
       overlay.className = 'cse-menu-overlay';
       header.appendChild(overlay);
-      
-      // Add click event to overlay
       overlay.addEventListener('click', function() {
-        // Find the burger button and remove its active class
         const burgerButton = document.querySelector('.cse-burger button');
-        if (burgerButton) {
-          burgerButton.classList.remove('burger--active');
-        }
-        
-        // Remove the menu open class from the body
+        if (burgerButton) burgerButton.classList.remove('burger--active');
         document.body.classList.remove('cse--menu-open');
         document.body.focus();
       });
     });
   }
 
-   function applyBreakpoint() {
-    // Convert breakpoint string to pixels for comparison
-    function convertToPixels(value) {
-      if (typeof value !== 'string') return value;    
-      if (value.includes('px')) {
-        return parseFloat(value);
-      }
-      return parseFloat(value); // fallback
-    }
-    
-    // Check window width against breakpoints
-    const breakpointInPx = convertToPixels(config.breakpoint);
-    const lowerBreakpointInPx = convertToPixels(config.lowerBreakpoint);
-    const windowWidth = window.innerWidth;
-    
-    // Apply class only if width is between lower and upper breakpoints
-    if (windowWidth >= lowerBreakpointInPx && windowWidth <= breakpointInPx) {
-      document.documentElement.classList.add(config.menuClass);
-    } else {
-      document.documentElement.classList.remove(config.menuClass);
-    }
-    
-    // Set up the media query for screen resizing
-    const mediaQueryList = window.matchMedia(
-      `(min-width: ${config.lowerBreakpoint}) and (max-width: ${config.breakpoint})`
-    );
-    
-    // Function to handle screen resize
-    function handleMediaQueryChange(e) {
-      if (e.matches) {
+  function applyBreakpoint() {
+    const sqspMobileQuery = '(pointer: coarse) and (max-width: 1024px), (max-width: 799px)';
+
+    const shouldActivate = () => {
+      const isSqspMobile = window.matchMedia(sqspMobileQuery).matches;
+      const isBelowBreakpoint = window.matchMedia('(max-width: ' + config.breakpoint + ')').matches;
+
+      if (isSqspMobile) {
+        document.documentElement.classList.remove(config.menuClass);
+      } else if (isBelowBreakpoint) {
         document.documentElement.classList.add(config.menuClass);
       } else {
         document.documentElement.classList.remove(config.menuClass);
       }
-    }
-    
-    // Add listener for screen size changes
-    mediaQueryList.addEventListener('change', handleMediaQueryChange);
+    };
+
+    shouldActivate();
+
+    const sqspMql = window.matchMedia(sqspMobileQuery);
+    const customMql = window.matchMedia('(max-width: ' + config.breakpoint + ')');
+
+    sqspMql.addEventListener('change', shouldActivate);
+    customMql.addEventListener('change', shouldActivate);
   }
-  
-  // Initialize the burger menu functionality
+
   initBurgerMenu();
-  
-  // Apply the breakpoint functionality
   applyBreakpoint();
-  
-  // Return the config for potential later use
   return config;
 }
