@@ -306,7 +306,7 @@ html.cse-menu-enabled:not(.mob-men-dis) #header .header-layout-branding-center-n
 #header .header-display-mobile .header-burger {
   flex-grow: 1;
 }
-.header-display-mobile .header-burger {--false: none;}
+.header-display-mobile .header-burger {--false: flex;}
 #header .header-burger .burger-box {
   display: var(--hideburgericon)!important;
 }
