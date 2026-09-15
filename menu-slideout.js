@@ -10,8 +10,15 @@ function desktopMobileMenu(options = {}) {
   const hasCustomBreakpoint = options.hasOwnProperty('breakpoint');
   config.breakpoint = hasCustomBreakpoint ? options.breakpoint : '1000000px';
 
+  function closeMenu() {
+    const burgerButton = document.querySelector('.cse-burger button');
+    if (burgerButton) burgerButton.classList.remove('burger--active');
+    document.body.classList.remove('cse--menu-open');
+    document.body.focus();
+  }
+
   function initBurgerMenu() {
-    document.addEventListener('DOMContentLoaded', function() {
+    function setup() {
       const header = document.getElementById('header');
       if (!header) return;
 
@@ -31,13 +38,25 @@ function desktopMobileMenu(options = {}) {
       const overlay = document.createElement('div');
       overlay.className = 'cse-menu-overlay';
       header.appendChild(overlay);
-      overlay.addEventListener('click', function() {
-        const burgerButton = document.querySelector('.cse-burger button');
-        if (burgerButton) burgerButton.classList.remove('burger--active');
-        document.body.classList.remove('cse--menu-open');
-        document.body.focus();
-      });
-    });
+      overlay.addEventListener('click', closeMenu);
+
+      const menu = header.querySelector('.header-menu');
+      if (menu) {
+        menu.addEventListener('click', function(e) {
+          const link = e.target.closest('a[href]');
+          if (!link) return;
+          if (link.hasAttribute('data-folder-id')) return;
+          if (link.closest('.header-menu-controls')) return;
+          closeMenu();
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setup);
+    } else {
+      setup();
+    }
   }
 
   function applyBreakpoint() {
